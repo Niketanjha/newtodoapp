@@ -32,11 +32,18 @@
         flex-direction: row;
         align-items: center;
         padding: 6%;
-        
+      }
+      .card:hover{ 
       }
         .task{
           margin-left: 5%;
         }
+        .delButton{
+          border: 0px;
+          background-color: white;
+        }
+        
+        
     .cardButton{
       display: flex;
       justify-content: space-evenly;
