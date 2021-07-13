@@ -1,101 +1,165 @@
 import './App.css';
 import React, {useState,useEffect} from 'react';
+import Modal from 'react-modal';
+import ContentCards from './Components/ContentCards'
+import InputBoxEnter from './Components/InputBoxEnter';
+import CardSwitchButton from './Components/CardSwitchButton';
+
+Modal.setAppElement("#root");
 
 function App() {
-  const [globalGetTaskList,globalSetTaskList]=useState([]);
-  const [getLocalTaskList,setLocalTaskList]=useState([...globalGetTaskList]);
+  const [getGlobalTaskList,setGlobalTaskList]=useState([]);
+  const [getLocalTaskList,setLocalTaskList]=useState([...getGlobalTaskList]);
   const [getTotalTask,setTotalTask]=useState(0);
-  const[getActiveTab,setActiveTab]=useState(1);
-  const[getStyle,setStyle]=useState({display:'none'});
+  const [getActiveTab,setActiveTab]=useState(1);
+  const [getStyle,setStyle]=useState({display:'none'});
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [getTempIndex,setTempIndex]=useState();
   
-  
+//////////////////////Functions for modals 
+  function openModal(i) {
+    setIsOpen(true);
+    setTempIndex(i);
+    console.log("rightnow i:",i,getGlobalTaskList);
+  }
+  function afterOpenModal() {
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
+/////////////////////////////////////////////////////////////////
   function activeTab(){
-    let tempArray=globalGetTaskList.filter(obj=>!obj.done)
+    let tempArray=getGlobalTaskList.filter(obj=>!obj.done)
     setLocalTaskList(tempArray);
     setActiveTab(2);
-    setTotalTask((globalGetTaskList.filter(o=>!o.done)).length); 
+    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
   };
   function completedTab(){
-    let tempArray=globalGetTaskList.filter(obj=>obj.done)
+    let tempArray=getGlobalTaskList.filter(obj=>obj.done)
     setLocalTaskList(tempArray);
     setActiveTab(3);
-    setTotalTask((globalGetTaskList.filter(o=>!o.done)).length); 
-    
+    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);     
   };
-  function allRender(){
-    setLocalTaskList([...globalGetTaskList]);
+  function allTab(){
+    setLocalTaskList([...getGlobalTaskList]);
     setActiveTab(1);
-    setTotalTask((globalGetTaskList.filter(o=>!o.done)).length); 
+    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
   };
-  function checkChange(list){
-    let tempArray=[...globalGetTaskList];
-    tempArray[list].done=!tempArray[list].done;
-    globalSetTaskList([...tempArray]);
-    console.log(globalGetTaskList[list].done);
-    setTotalTask((globalGetTaskList.filter(o=>!o.done)).length); 
-    setLocalTaskList(([...globalGetTaskList]));     
+////////////////////////////////////////////////////////////////////////////////////////
+  function checkChange(i){
+    console.log(i);
+    if(getActiveTab===1){
+      let tempArray=[...getGlobalTaskList];
+      console.log(tempArray,i);  
+      tempArray[i].done=!(tempArray[i].done);
+
+      setGlobalTaskList([...tempArray]);
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+      setLocalTaskList(([...getGlobalTaskList]));
+      console.log("Active tab is 1");
+    }
+    else if(getActiveTab===2){
+      console.log("Active tab is 2");
+      let tempArray=[...getGlobalTaskList];
+      const temp=getLocalTaskList[i].id;
+      tempArray.filter((o,i)=>{
+        if(o.id===temp){
+          o.done=!o.done;
+        }});
+      setGlobalTaskList(tempArray);
+      let tempArray1=getGlobalTaskList.filter(obj=>!obj.done);
+      setLocalTaskList(tempArray1);
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+    }
+    else{
+      console.log("Active tab is 2");
+      let tempArray=[...getGlobalTaskList];
+      const temp=getLocalTaskList[i].id;
+      tempArray.filter((o,i)=>{
+        if(o.id===temp){
+          o.done=!o.done;
+        }});
+      setGlobalTaskList(tempArray);
+      let tempArray1=getGlobalTaskList.filter(obj=>obj.done);
+      setLocalTaskList(tempArray1);
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+    }
   };
-  function deleteButton(i){
-    console.log("this is i", i);
-    let tempArray=[...globalGetTaskList.slice(0,i),...globalGetTaskList.slice(i+1)];
-    setLocalTaskList(tempArray);
-    globalSetTaskList(tempArray);
-    setTotalTask((globalGetTaskList.filter(o=>!o.done)).length);    
+    
+  function deleteButton(){
+    let i=getTempIndex;
+    if(getActiveTab===1){
+      console.log("tab1 clicked and i is:",i);
+      let tempArray=[...getGlobalTaskList.slice(0,i),...getGlobalTaskList.slice(i+1)];
+      setLocalTaskList(tempArray);
+      setGlobalTaskList(tempArray);
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);    
+      setIsOpen(false);
+    }
+    else if(getActiveTab===2){
+      console.log("Active tab is 2");
+      const temp=getLocalTaskList[i].id;
+      getGlobalTaskList.filter((o,n)=>{
+        if(o.id===temp){
+          console.log("id===temp found and o,n is",o,n);
+          let tempArray=[...getGlobalTaskList.slice(0,n),...getGlobalTaskList.slice(n+1)];
+          setGlobalTaskList(tempArray);
+        }});
+      let tempArray1=getGlobalTaskList.filter(obj=>!obj.done);
+      setLocalTaskList(tempArray1);
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+      setGlobalTaskList([...getGlobalTaskList]);
+      setIsOpen(false);
+      
+    }
+    
   }
-  
+/////////////////////////////////////////////////////////////////////////////////////////
   return(
     <div className="mainClass">
       <div className="mainBox">
         <div className="divh1">
           <h1>Todo App</h1>
         </div>
-        <input className="enterBox" type="text"
-        onKeyPress={(event)=>{
-          if(event.key=="Enter"){
-            event.preventDefault();
-            if(event.target.value!=""){
-              if(getActiveTab=="3"){
-                globalSetTaskList([...globalGetTaskList,{id:Math.random(),task:event.target.value,done:false,hover:'none'}]);  
-                setTotalTask((globalGetTaskList.filter(o=>!o.done)).length); 
-              }
-              else{
-                globalSetTaskList([...globalGetTaskList,{id:Math.random(),task:event.target.value,done:false,hover:'none'}]);
-                setLocalTaskList([...getLocalTaskList,{id:Math.random(),task:event.target.value,done:false,hover:'none'}]);
-                setTotalTask((globalGetTaskList.filter(o=>!o.done)).length); 
-              }
-              
-            }
-            event.currentTarget.value = "";
-          }
-        }} placeholder="What needs to be done?"></input>
-        <div className="contentCards">
-          {getLocalTaskList.map((list,i)=>{
-            return(
-              <div className="card" key={list.id}>
-                <input type="checkbox" 
-                id={list.id}
-                onChange={()=>{checkChange(i)}}
-                defaultChecked={list.done}
-                style={{width:"30px",height:"30px",
-                borderRadius:"15px"
-                 }}></input>
-                <span className="task" style={{textDecoration:list.done?"line-through":"none"}}>{list.task}</span>
-                <button className="delButton" 
-                onClick={()=>{deleteButton(i)}}
-                style={{marginLeft:"auto"}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-              </svg></button>
-              </div>);
-          })}
-        </div>
-        <div className="cardButton">
-          <span>{getTotalTask} item left</span>
-          <button className={getActiveTab===1? 'activeButton':'switchButton'} onClick={allRender}>All</button>
-          <button className={getActiveTab===2? 'activeButton':'switchButton'} onClick={activeTab}>Active</button>
-          <button className={getActiveTab===3? 'activeButton':'switchButton'} onClick={completedTab}>Completed</button>
-        </div>
+        <InputBoxEnter 
+          getActiveTab={getActiveTab}
+          getLocalTaskList={getLocalTaskList}
+          getGlobalTaskList={getGlobalTaskList}
+          setGlobalTaskList={setGlobalTaskList}
+          setTotalTask={setTotalTask}
+          setLocalTaskList={setLocalTaskList}
+        />
+        <ContentCards 
+          getActiveTab={getActiveTab}
+          setGlobalTaskList={setGlobalTaskList}
+          getLocalTaskList={getLocalTaskList}
+          checkChange={checkChange}
+          setTempIndex={setTempIndex}
+          deleteButton={deleteButton}
+          openModal={openModal} 
+        />
+        <CardSwitchButton 
+          getActiveTab={getActiveTab}
+          allTab={allTab}
+          activeTab={activeTab}
+          completedTab={completedTab}
+          getTotalTask={getTotalTask}
+
+        />
       </div>
+
+      <Modal
+          isOpen={modalIsOpen} onAfterOpen={afterOpenModal} 
+          onRequestClose={closeModal} 
+          style={{
+            top:"50%", left: '50%', right: 'auto', bottom: 'auto',
+            marginRight:'-50%',
+            transform: 'translate(-50%, -50%)'}} 
+          contentLabel="Example Modal"> 
+          <div>Are you confirm?</div>
+          <button onClick={closeModal}>Cancel</button>
+          <button onClick={deleteButton}>Delete</button>      
+      </Modal> 
     </div>
   );
 }
