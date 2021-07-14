@@ -6,9 +6,9 @@ function CardSwitchButton(props){
         <>
           <div className="cardButton">
             <span>{props.getTotalTask} item left</span>
-            <button className={props.getActiveTab===1? 'activeButton':'switchButton'} onClick={props.allTab}>All</button>
-            <button className={props.getActiveTab===2? 'activeButton':'switchButton'} onClick={props.activeTab}>Active</button>
-            <button className={props.getActiveTab===3? 'activeButton':'switchButton'} onClick={props.completedTab}>Completed</button>
+            <button className={props.getActiveTab===1? 'activeButton':'switchButton'} onClick={props.allTab}><span className="textClass">All</span></button>
+            <button className={props.getActiveTab===2? 'activeButton':'switchButton'} onClick={props.activeTab} ><span className="textClass">Active</span></button>
+            <button className={props.getActiveTab===3? 'activeButton':'switchButton'} onClick={props.completedTab}><span className="textClass">Completed</span></button>
           </div>
         
         </>
