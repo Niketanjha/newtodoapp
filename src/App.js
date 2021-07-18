@@ -5,7 +5,10 @@ import ContentCards from './Components/ContentCards'
 import InputBoxEnter from './Components/InputBoxEnter';
 import CardSwitchButton from './Components/CardSwitchButton';
 
-Modal.setAppElement("#root");
+import {petIncrement,petDecrement,addToDoitem} from './Redux/actions';
+import {useSelector,useDispatch} from 'react-redux';
+
+Modal.setAppElement("#root");   
 
 function App() {
   const [getGlobalTaskList,setGlobalTaskList]=useState([]);
@@ -16,13 +19,15 @@ function App() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [getTempIndex,setTempIndex]=useState();
   
+  const petCounter=useSelector((state)=> state.addTodo);
+  const dispatch =useDispatch();
 //////////////////////Functions for modals 
   function openModal(i) {
     setIsOpen(true);
     setTempIndex(i);
     console.log("rightnow i:",i,getGlobalTaskList);
   }
-  function afterOpenModal() {
+  function afterOpenModal() { 
   }
   function closeModal() {
     setIsOpen(false);
@@ -84,7 +89,7 @@ function App() {
       setLocalTaskList(tempArray1);
       setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
     }
-  };
+  }; 
     
   function deleteButton(direct){
     
@@ -144,7 +149,11 @@ function App() {
       <div className="mainBox">
         <div className="divh1">
           <h1>Todo App</h1>
-        </div>
+          <h1>{petCounter}</h1>
+          <button onClick={()=>dispatch(petIncrement())}>Increment</button>
+          <button onClick={()=>dispatch(petDecrement())}>Decrement</button>
+          <button onClick={()=>dispatch(addToDoitem({id:2,task:"task2",done:false}))}>Add task</button>
+        </div>  
         <InputBoxEnter 
           getActiveTab={getActiveTab}
           getLocalTaskList={getLocalTaskList}
