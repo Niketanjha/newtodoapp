@@ -72,7 +72,7 @@ function App() {
       setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
     }
     else{
-      console.log("Active tab is 2");
+      console.log("Active tab is 3");
       let tempArray=[...getGlobalTaskList];
       const temp=getLocalTaskList[i].id;
       tempArray.filter((o,i)=>{
@@ -86,9 +86,10 @@ function App() {
     }
   };
     
-  function deleteButton(){
-    let i=getTempIndex;
+  function deleteButton(direct){
+    
     if(getActiveTab===1){
+      let i=getTempIndex;
       console.log("tab1 clicked and i is:",i);
       let tempArray=[...getGlobalTaskList.slice(0,i),...getGlobalTaskList.slice(i+1)];
       setLocalTaskList(tempArray);
@@ -97,20 +98,43 @@ function App() {
       setIsOpen(false);
     }
     else if(getActiveTab===2){
+      let i=getTempIndex;
       console.log("Active tab is 2");
+      let tempArray2=[...getGlobalTaskList];
       const temp=getLocalTaskList[i].id;
-      getGlobalTaskList.filter((o,n)=>{
+      tempArray2.filter((o,n)=>{
         if(o.id===temp){
-          console.log("id===temp found and o,n is",o,n);
-          let tempArray=[...getGlobalTaskList.slice(0,n),...getGlobalTaskList.slice(n+1)];
-          setGlobalTaskList(tempArray);
+          let tempArray=[...tempArray2.slice(0,n),...tempArray2.slice(n+1)];
+          console.log("id===temp found and o,n,temparray is",o,n,tempArray);
+          tempArray2=[...tempArray]
+          console.log(tempArray2);
         }});
-      let tempArray1=getGlobalTaskList.filter(obj=>!obj.done);
+      console.log("outing",tempArray2);
+      setGlobalTaskList(tempArray2);
+      let tempArray1=tempArray2.filter(obj=>!obj.done);
       setLocalTaskList(tempArray1);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
-      setGlobalTaskList([...getGlobalTaskList]);
-      setIsOpen(false);
-      
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);     
+      setIsOpen(false);    
+    }
+    else{
+      let i=direct; 
+      console.log("Active tab is 3");
+      let tempArray=[...getGlobalTaskList];
+      console.log("Local task list and i is:",getLocalTaskList,i);
+      const temp=getLocalTaskList[i].id;
+      tempArray.filter((o,n)=>{
+        if(o.id===temp){
+          let tempArray1=[...tempArray.slice(0,n),...tempArray.slice(n+1)];
+          console.log("id===temp found and o,n,temparray is",o,n,tempArray1);
+          tempArray=[...tempArray1];
+          console.log(tempArray);
+        }});
+      console.log(tempArray);
+      setGlobalTaskList(tempArray);
+      let tempArray2=tempArray.filter(obj=>obj.done);
+      setLocalTaskList(tempArray2);
+      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);
+      setIsOpen(false); 
     }
     
   }
@@ -151,10 +175,25 @@ function App() {
       <Modal
           isOpen={modalIsOpen} onAfterOpen={afterOpenModal} 
           onRequestClose={closeModal} 
+          
           style={{
-            top:"50%", left: '50%', right: 'auto', bottom: 'auto',
-            marginRight:'-50%',
-            transform: 'translate(-50%, -50%)'}} 
+            content:{
+              top:'50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              marginRight: '0%',
+              transform: 'translate(-50%, -50%)',},
+            overlay:{
+              width:'20%',
+              top:'50%',
+              left: '50%',
+              right: 'auto',
+              bottom: 'auto',
+              backgroundColor:'red',              
+            }, 
+          }} 
+            
           contentLabel="Example Modal"> 
           <div>Are you confirm?</div>
           <button onClick={closeModal}>Cancel</button>

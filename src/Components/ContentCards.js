@@ -22,7 +22,8 @@ function ContentCards(props){
                     <button className="delButton" 
                     onClick={()=>{
                         if(props.getActiveTab===3){
-                        props.setTempIndex(i);
+                        console.log("this is I from contentcomponent:",i);
+                        
                         props.deleteButton(i);
                         }else{
                         props.openModal(i)}}} //()=>{deleteButton(i)}
