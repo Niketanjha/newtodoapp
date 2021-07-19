@@ -5,7 +5,12 @@ import ContentCards from './Components/ContentCards'
 import InputBoxEnter from './Components/InputBoxEnter';
 import CardSwitchButton from './Components/CardSwitchButton';
 
-import {petIncrement,petDecrement,addToDoitem} from './Redux/actions';
+import {addGlobalToDoItem, deleteGlobalToDoItem,
+        updateGlobalToDoItem, getGlobalToDoItem,
+        addLocalToDoItem, updateLocalToDoItem,
+        set_Total_Task, set_Active_Tab,
+        setModalIsOpen, set_Temp_Index} from './Redux/actions';
+import store from './Redux/store.js';
 import {useSelector,useDispatch} from 'react-redux';
 
 Modal.setAppElement("#root");   
@@ -19,34 +24,44 @@ function App() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [getTempIndex,setTempIndex]=useState();
   
-  const petCounter=useSelector((state)=> state.addTodo);
+  const petCounter=useSelector((state)=> {console.log('useselectorstate',state.localToDoReducer);return state.addTodo});
   const dispatch =useDispatch();
-//////////////////////Functions for modals 
+  dispatch(updateLocalToDoItem([...store.getState().globalToDoReducer]));
+
+  //////////////////////Functions for modals 
   function openModal(i) {
-    setIsOpen(true);
-    setTempIndex(i);
+    setIsOpen(true);dispatch(setModalIsOpen(true));
+    setTempIndex(i);dispatch(setModalIsOpen(true));
+    
     console.log("rightnow i:",i,getGlobalTaskList);
   }
   function afterOpenModal() { 
   }
   function closeModal() {
-    setIsOpen(false);
+    setIsOpen(false);dispatch(setModalIsOpen(false));
   }
 /////////////////////////////////////////////////////////////////
   function activeTab(){
-    let tempArray=getGlobalTaskList.filter(obj=>!obj.done)
-    setLocalTaskList(tempArray);
-    setActiveTab(2);
+    let tempArray=getGlobalTaskList.filter(obj=>!obj.done);
+    setLocalTaskList(tempArray);dispatch(updateLocalToDoItem(tempArray));
+    setActiveTab(2);dispatch(updateLocalToDoItem);
     setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+    let temp=store.getState().globalToDoReducer;
+    console.log(temp);
+    dispatch(set_Total_Task());
   };
   function completedTab(){
     let tempArray=getGlobalTaskList.filter(obj=>obj.done)
-    setLocalTaskList(tempArray);
-    setActiveTab(3);
-    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);     
+    setLocalTaskList(tempArray);dispatch(updateLocalToDoItem(tempArray));
+    setActiveTab(3);dispatch(set_Active_Tab(3));
+    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);
+    const temp=store.getState().globalToDoReducer;
+    console.log(store.getState().globalToDoReducer);
+    dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
   };
   function allTab(){
     setLocalTaskList([...getGlobalTaskList]);
+    dispatch(updateLocalToDoItem([...getGlobalTaskList]))
     setActiveTab(1);
     setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
   };
@@ -100,6 +115,7 @@ function App() {
       setLocalTaskList(tempArray);
       setGlobalTaskList(tempArray);
       setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);    
+      dispatch(deleteGlobalToDoItem(i));
       setIsOpen(false);
     }
     else if(getActiveTab===2){
@@ -150,9 +166,9 @@ function App() {
         <div className="divh1">
           <h1>Todo App</h1>
           <h1>{petCounter}</h1>
-          <button onClick={()=>dispatch(petIncrement())}>Increment</button>
-          <button onClick={()=>dispatch(petDecrement())}>Decrement</button>
-          <button onClick={()=>dispatch(addToDoitem({id:2,task:"task2",done:false}))}>Add task</button>
+          <button onClick={()=>dispatch(addLocalToDoItem({id:2,task:"task2",done:false}))}>Increment</button>
+          <button onClick={()=>dispatch(addLocalToDoItem({id:2,task:"task2",done:false}))}>Decrement</button>
+          <button onClick={()=>dispatch(addGlobalToDoItem({id:2,task:"task2",done:false}))}>Add task</button>
         </div>  
         <InputBoxEnter 
           getActiveTab={getActiveTab}
