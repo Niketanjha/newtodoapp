@@ -12,106 +12,109 @@ import {addGlobalToDoItem, deleteGlobalToDoItem,
         setModalIsOpen, set_Temp_Index} from './Redux/actions';
 import store from './Redux/store.js';
 import {useSelector,useDispatch} from 'react-redux';
+import { setTempIndex } from './Redux/reducers/reducers';
 
 Modal.setAppElement("#root");   
 
 function App() {
   const dispatch =useDispatch();
-  dispatch(updateLocalToDoItem([...store.getState().localToDoReducer]));
-  dispatch(updateGlobalToDoItem([...store.getState().globalToDoReducer]))
-  
-  const petCounter=useSelector((state)=> {console.log('useselectorstate',state.localToDoReducer);return state.addTodo});
+  const globalstate=useSelector(state=>state.globalToDoReducer);
+  const localstate=useSelector(state=>state.localToDoReducer);
+  const acttab=useSelector(state=>state.setActiveTab);
+  const tempIndex=useSelector(state=>state.setTempIndex);
+  const modalState=useSelector(state=>state.ModalIsOpen);   
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
   console.log("function app rendered");
   //////////////////////Functions for modals 
   function openModal(i) {
-    dispatch(setModalIsOpen(true));
-    dispatch(setModalIsOpen(true));
-    console.log("rightnow i:",i,store.getState().globalToDoReducer);
+    setIsOpen(true);
+    dispatch(set_Temp_Index(i));
+    console.log("rightnow i:",i,globalstate);
   }
   function afterOpenModal() { 
   }
    function closeModal() {
-    dispatch(setModalIsOpen(false));
+    setIsOpen(false);
   }
 /////////////////////////////////////////////////////////////////
   function activeTab(){
     
-    let tempArray1=store.getState().globalToDoReducer.filter(obj=>!obj.done);
+    let tempArray1=globalstate.filter(obj=>!obj.done);
     dispatch(updateLocalToDoItem(tempArray1));
     dispatch(set_Active_Tab(2));
-    dispatch(set_Total_Task(store.getState().globalToDoReducer.filter(o=>!o.done).length));
+    dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
   };
   function completedTab(){
- let tempArray1=(store.getState().globalToDoReducer).filter(o=>o.done)
+ let tempArray1=(globalstate).filter(o=>o.done)
     dispatch(updateLocalToDoItem(tempArray1));
     dispatch(set_Active_Tab(3));
-/*redux*/dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length));
-    const temp=store.getState().globalToDoReducer;
-/*redux*/ dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
+    dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
+    const temp=globalstate;
+    dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
   };
   function allTab(){
-/*redux*/ dispatch(updateLocalToDoItem([...store.getState().globalToDoReducer]))
+    dispatch(updateLocalToDoItem([...globalstate]));
     dispatch(set_Active_Tab(1));
-    /*redux*/dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length));
+    dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
   };
 ////////////////////////////////////////////////////////////////////////////////////////
   function checkChange(i){
     console.log(i);
-    if(store.getState.setActiveTab===1){
-/*redux*/let tempArray1=[...store.getState().globalToDoReducer];
+    if(acttab===1){
+      let tempArray1=[...globalstate];
       console.log(tempArray1,i);  
-/*redux*/tempArray1[i].done=!(tempArray1[i].done);
-/*redux*/dispatch(updateGlobalToDoItem([...tempArray1]));
-/*redux*/dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
-/*redux*/dispatch(updateLocalToDoItem([...store.getState().globalToDoReducer]));
+      tempArray1[i].done=!(tempArray1[i].done);
+      dispatch(updateGlobalToDoItem([...tempArray1]));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      dispatch(updateLocalToDoItem([...globalstate]));
       console.log("Active tab is 1");
     }
-    else if(store.getState.setActiveTab===2){
+    else if(acttab===2){
       console.log("Active tab is 2");
-/*redux*/let tempArray0=[...store.getState().globalToDoReducer];
-      const temp1=store.getState().localToDoReducer[i].id;
-/*redux*/tempArray0.filter((o,i)=>{
+      let tempArray0=[...globalstate];
+      const temp1=localstate[i].id;
+        tempArray0.filter((o,i)=>{
           if(o.id===temp1){
             o.done=!o.done;
           }});
-/*redux*/ dispatch(updateGlobalToDoItem(tempArray0));
-/*redux*/ let tempArray2=(store.getState().globalToDoReducer).filter(obj=>!obj.done);      
-/*redux*/dispatch(updateLocalToDoItem(tempArray2));
-/*redux*/dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
+      dispatch(updateGlobalToDoItem(tempArray0));
+      let tempArray2=(globalstate).filter(obj=>!obj.done);      
+      dispatch(updateLocalToDoItem(tempArray2));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
     else{ /*else for Active tab 3*/
       console.log("Active tab is 3");
-/*redux*/let tempArray0=[...store.getState().globalToDoReducer];
-/*redux*/ const temp1=store.getState().localToDoReducer[i].id;
-/*redux*/ tempArray0.filter((o,i)=>{
+      let tempArray0=[...globalstate];
+      const temp1=localstate[i].id;
+       tempArray0.filter((o,i)=>{
         if(o.id===temp1){
           o.done=!o.done;
         }});
-/*redux*/ dispatch(updateGlobalToDoItem(tempArray0));
-/*redux*/let tempArray2=(store.getState().globalToDoReducer).filter(obj=>obj.done);      
-/*redux*/dispatch(updateLocalToDoItem(tempArray2));
-/*redux*/dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
+      dispatch(updateGlobalToDoItem(tempArray0));
+      let tempArray2=(globalstate).filter(obj=>obj.done);      
+      dispatch(updateLocalToDoItem(tempArray2));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
   }; 
     
   function deleteButton(direct){    
-    if(store.getState().setActiveTab===1){
-      let i=store.getState().setTempIndex;
+    if(acttab===1){
+      let i=tempIndex;
       console.log("tab1 clicked and i is:",i);
-      let tempArray0=store.getState().globalToDoReducer;
+      let tempArray0=globalstate;
       let tempArray=[...tempArray0.slice(0,i),...tempArray0.slice(i+1)];
       dispatch(updateLocalToDoItem(tempArray));
       dispatch(updateGlobalToDoItem(tempArray));
-      dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
-      dispatch(deleteGlobalToDoItem(i));
-      dispatch(setModalIsOpen(false));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      setIsOpen(false);
     }
     
-    else if(store.getState().setActiveTab===2){
-      let i=store.getState().setTempIndex;
+    else if(acttab===2){
+      let i=tempIndex;
       console.log("Active tab is 2");
-      let tempArray2=[...store.getState().globalToDoReducer];
-      const temp=store.getState().localToDoReducer[i].id;
+      let tempArray2=[...globalstate];
+      const temp=localstate[i].id;
       tempArray2.filter((o,n)=>{  
         if(o.id===temp){
           let tempArray=[...tempArray2.slice(0,n),...tempArray2.slice(n+1)];
@@ -123,15 +126,15 @@ function App() {
       dispatch(updateGlobalToDoItem(tempArray2));
       let tempArray1=tempArray2.filter(obj=>!obj.done);
       dispatch(updateLocalToDoItem(tempArray1));
-      dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
-      dispatch(setModalIsOpen(false));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      setIsOpen(false);
     }
     else{
       let i=direct; 
       console.log("Active tab is 3");
-      let tempArray=[...store.getState().globalToDoReducer];
-      console.log("Local task list and i is:",store.getState().localToDoReducer,i);
-      const temp=store.getState().localToDoReducer[i].id;
+      let tempArray=[...globalstate];
+      console.log("Local task list and i is:",localstate,i);
+      const temp=localstate[i].id;
       tempArray.filter((o,n)=>{
         if(o.id===temp){
           let tempArray1=[...tempArray.slice(0,n),...tempArray.slice(n+1)];
@@ -143,8 +146,8 @@ function App() {
       dispatch(updateGlobalToDoItem(tempArray));
       let tempArray2=tempArray.filter(obj=>obj.done);
       dispatch(updateLocalToDoItem(tempArray2));
-      dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
-      dispatch(setModalIsOpen(false));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      setModalIsOpen(false);
     }
     
     
@@ -156,12 +159,12 @@ function App() {
         <div className="divh1">
           <h1>Todo App</h1>
         </div>  
-        <InputBoxEnter />
+        
+        <InputBoxEnter 
+        
+        />
         
         <ContentCards 
-          getActiveTab={store.getState().setActiveTab}
-          getLocalTaskList={store.getState().localToDoReducer}
-          getGlobalTaskList={store.getState().globalToDoReducer}
           checkChange={checkChange}
           deleteButton={deleteButton}
           openModal={openModal} 
@@ -174,13 +177,13 @@ function App() {
       </div>
 
       <Modal
-          isOpen={store.getState().ModalIsOpen} onAfterOpen={afterOpenModal} 
+          isOpen={modalIsOpen} onAfterOpen={afterOpenModal} 
           onRequestClose={closeModal} 
           style={{
             content:{top:'50%',left: '50%',right: 'auto',bottom: 'auto',
               marginRight: '0%',transform: 'translate(-50%, -50%)',},
             overlay:{
-              width:'20%',top:'50%',left: '50%',right: 'auto',
+              width:'30%',top:'50%',left: '50%',right: 'auto',
               bottom: 'auto',backgroundColor:'red',              
             }, 
           }} 

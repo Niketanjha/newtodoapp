@@ -82,7 +82,7 @@ export function modalIsOpen(state=false,action){
     }
 }
 
-export function setTempIndex(state=null,action){
+export function setTempIndex(state=0,action){
     switch(action.type){
         case "SET_TEMP_INDEX":
             state=action.payload;

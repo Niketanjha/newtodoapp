@@ -6,6 +6,9 @@ import store from '../Redux/store';
 
 function InputBoxEnter(props){
     const dispatch=useDispatch();
+    const globalstate=useSelector(state=>state.globalToDoReducer);
+    const localstate=useSelector(state=>state.localToDoReducer);
+    const actvTab=useSelector(state=>state.set_Active_Tab);
     return(
         <>
         <input className="enterBox" type="text"
@@ -13,14 +16,14 @@ function InputBoxEnter(props){
             if(event.key=="Enter"){
                 event.preventDefault();
                 if(event.target.value!=""){
-                    if(store.getState.set_Active_Tab=="3"){
-                        dispatch(updateGlobalToDoItem([...store.getState().globalToDoReducer,{id:Math.random(),task:event.target.value,done:false}]));
-                        dispatch(set_Total_Task(store.getState().globalToDoReducer.filter(o=>!o.done).length));
+                    if(actvTab==="3"){
+                        dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),task:event.target.value,done:false}]));
+                        dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
                     }
                     else{
-                        dispatch(updateGlobalToDoItem([...store.getState().globalToDoReducer,{id:Math.random(),task:event.target.value,done:false}]));
+                        dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),task:event.target.value,done:false}]));
                         dispatch(addLocalToDoItem({id:Math.random(),task:event.target.value,done:false}));
-                        dispatch(set_Total_Task((store.getState().globalToDoReducer).filter(o=>!o.done).length)); 
+                        dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
                     }              
                 }
                 event.currentTarget.value = "";
