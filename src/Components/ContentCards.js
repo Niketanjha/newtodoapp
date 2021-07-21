@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
+import { useSelector } from 'react-redux';
+import store from '../Redux/store';
 import './ContentCards.css'
 
-//props:getActiveTab,setGlobalTaskList
-//getLocalTaskList,checkChange(i),setTempIndex(i),deleteButton(i)
-//openModal(i)
 function ContentCards(props){
+    console.log("contentCard");
+    const data=useSelector(state=>state.localToDoReducer);
+    const acttab=useSelector(state=>state.setActiveTab);
     return(
         <div className="contentCards">
-        {props.getLocalTaskList.map((list,i)=>{
+        {data.map((list,i)=>{
+            console.log(list,i);
             return(
                 <div className="card" key={list.id}>
                     <input type="checkbox" 
@@ -21,7 +24,7 @@ function ContentCards(props){
                     <span className="task" style={{textDecoration:list.done?"line-through":"none"}}>{list.task}</span>
                     <button className="delButton" 
                     onClick={()=>{
-                        if(props.getActiveTab===3){
+                        if(acttab===3){
                         console.log("this is I from contentcomponent:",i);
                         
                         props.deleteButton(i);

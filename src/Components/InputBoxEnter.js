@@ -1,9 +1,14 @@
 import './InputBoxEnter.css'
 import React, {useState} from 'react';
+import {addGlobalToDoItem, addLocalToDoItem, set_Total_Task, updateGlobalToDoItem, updateLocalToDoItem} from '../Redux/actions';
+import {useSelector,useDispatch} from 'react-redux';
+import store from '../Redux/store';
 
-//props= getActiveTab, setGlobalTaskList,getGlobalTaskList,setTotalTask,
-//setLocalTaskList,getLocalTaskList,
 function InputBoxEnter(props){
+    const dispatch=useDispatch();
+    const globalstate=useSelector(state=>state.globalToDoReducer);
+    const localstate=useSelector(state=>state.localToDoReducer);
+    const actvTab=useSelector(state=>state.set_Active_Tab);
     return(
         <>
         <input className="enterBox" type="text"
@@ -11,15 +16,15 @@ function InputBoxEnter(props){
             if(event.key=="Enter"){
                 event.preventDefault();
                 if(event.target.value!=""){
-                if(props.getActiveTab=="3"){
-                    props.setGlobalTaskList([...props.getGlobalTaskList,{id:Math.random(),task:event.target.value,done:false,hover:'none'}]);  
-                    props.setTotalTask((props.getGlobalTaskList.filter(o=>!o.done)).length); 
-                }
-                else{
-                    props.setGlobalTaskList([...props.getGlobalTaskList,{id:Math.random(),task:event.target.value,done:false,hover:'none'}]);
-                    props.setLocalTaskList([...props.getLocalTaskList,{id:Math.random(),task:event.target.value,done:false,hover:'none'}]);
-                    props.setTotalTask((props.getGlobalTaskList.filter(o=>!o.done)).length); 
-                }              
+                    if(actvTab==="3"){
+                        dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),task:event.target.value,done:false}]));
+                        dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
+                    }
+                    else{
+                        dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),task:event.target.value,done:false}]));
+                        dispatch(addLocalToDoItem({id:Math.random(),task:event.target.value,done:false}));
+                        dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+                    }              
                 }
                 event.currentTarget.value = "";
             }

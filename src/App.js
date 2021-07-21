@@ -5,123 +5,136 @@ import ContentCards from './Components/ContentCards'
 import InputBoxEnter from './Components/InputBoxEnter';
 import CardSwitchButton from './Components/CardSwitchButton';
 
-Modal.setAppElement("#root");
+import {addGlobalToDoItem, deleteGlobalToDoItem, 
+        updateGlobalToDoItem, getGlobalToDoItem,
+        addLocalToDoItem, updateLocalToDoItem,
+        set_Total_Task, set_Active_Tab,
+        setModalIsOpen, set_Temp_Index} from './Redux/actions';
+import store from './Redux/store.js';
+import {useSelector,useDispatch} from 'react-redux';
+import { setTempIndex } from './Redux/reducers/reducers';
+
+Modal.setAppElement("#root");   
 
 function App() {
-  const [getGlobalTaskList,setGlobalTaskList]=useState([]);
-  const [getLocalTaskList,setLocalTaskList]=useState([...getGlobalTaskList]);
-  const [getTotalTask,setTotalTask]=useState(0);
-  const [getActiveTab,setActiveTab]=useState(1);
-  const [getStyle,setStyle]=useState({display:'none'});
+  const dispatch =useDispatch();
+  const globalstate=useSelector(state=>state.globalToDoReducer);
+  const localstate=useSelector(state=>state.localToDoReducer);
+  const acttab=useSelector(state=>state.setActiveTab);
+  const tempIndex=useSelector(state=>state.setTempIndex);
+  const modalState=useSelector(state=>state.ModalIsOpen);   
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [getTempIndex,setTempIndex]=useState();
-  
-//////////////////////Functions for modals 
+
+  console.log("function app rendered");
+  //////////////////////Functions for modals 
   function openModal(i) {
     setIsOpen(true);
-    setTempIndex(i);
-    console.log("rightnow i:",i,getGlobalTaskList);
+    dispatch(set_Temp_Index(i));
+    console.log("rightnow i:",i,globalstate);
   }
-  function afterOpenModal() {
+  function afterOpenModal() { 
   }
-  function closeModal() {
+   function closeModal() {
     setIsOpen(false);
   }
 /////////////////////////////////////////////////////////////////
   function activeTab(){
-    let tempArray=getGlobalTaskList.filter(obj=>!obj.done)
-    setLocalTaskList(tempArray);
-    setActiveTab(2);
-    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+    
+    let tempArray1=globalstate.filter(obj=>!obj.done);
+    dispatch(updateLocalToDoItem(tempArray1));
+    dispatch(set_Active_Tab(2));
+    dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
   };
   function completedTab(){
-    let tempArray=getGlobalTaskList.filter(obj=>obj.done)
-    setLocalTaskList(tempArray);
-    setActiveTab(3);
-    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);     
+ let tempArray1=(globalstate).filter(o=>o.done)
+    dispatch(updateLocalToDoItem(tempArray1));
+    dispatch(set_Active_Tab(3));
+    dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
+    const temp=globalstate;
+    dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
   };
   function allTab(){
-    setLocalTaskList([...getGlobalTaskList]);
-    setActiveTab(1);
-    setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+    dispatch(updateLocalToDoItem([...globalstate]));
+    dispatch(set_Active_Tab(1));
+    dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
   };
 ////////////////////////////////////////////////////////////////////////////////////////
   function checkChange(i){
     console.log(i);
-    if(getActiveTab===1){
-      let tempArray=[...getGlobalTaskList];
-      console.log(tempArray,i);  
-      tempArray[i].done=!(tempArray[i].done);
-
-      setGlobalTaskList([...tempArray]);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
-      setLocalTaskList(([...getGlobalTaskList]));
+    if(acttab===1){
+      let tempArray1=[...globalstate];
+      console.log(tempArray1,i);  
+      tempArray1[i].done=!(tempArray1[i].done);
+      dispatch(updateGlobalToDoItem([...tempArray1]));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      dispatch(updateLocalToDoItem([...globalstate]));
       console.log("Active tab is 1");
     }
-    else if(getActiveTab===2){
+    else if(acttab===2){
       console.log("Active tab is 2");
-      let tempArray=[...getGlobalTaskList];
-      const temp=getLocalTaskList[i].id;
-      tempArray.filter((o,i)=>{
-        if(o.id===temp){
-          o.done=!o.done;
-        }});
-      setGlobalTaskList(tempArray);
-      let tempArray1=getGlobalTaskList.filter(obj=>!obj.done);
-      setLocalTaskList(tempArray1);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+      let tempArray0=[...globalstate];
+      const temp1=localstate[i].id;
+        tempArray0.filter((o,i)=>{
+          if(o.id===temp1){
+            o.done=!o.done;
+          }});
+      dispatch(updateGlobalToDoItem(tempArray0));
+      let tempArray2=(globalstate).filter(obj=>!obj.done);      
+      dispatch(updateLocalToDoItem(tempArray2));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
-    else{
+    else{ /*else for Active tab 3*/
       console.log("Active tab is 3");
-      let tempArray=[...getGlobalTaskList];
-      const temp=getLocalTaskList[i].id;
-      tempArray.filter((o,i)=>{
-        if(o.id===temp){
+      let tempArray0=[...globalstate];
+      const temp1=localstate[i].id;
+       tempArray0.filter((o,i)=>{
+        if(o.id===temp1){
           o.done=!o.done;
         }});
-      setGlobalTaskList(tempArray);
-      let tempArray1=getGlobalTaskList.filter(obj=>obj.done);
-      setLocalTaskList(tempArray1);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length); 
+      dispatch(updateGlobalToDoItem(tempArray0));
+      let tempArray2=(globalstate).filter(obj=>obj.done);      
+      dispatch(updateLocalToDoItem(tempArray2));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
-  };
+  }; 
     
-  function deleteButton(direct){
-    
-    if(getActiveTab===1){
-      let i=getTempIndex;
+  function deleteButton(direct){    
+    if(acttab===1){
+      let i=tempIndex;
       console.log("tab1 clicked and i is:",i);
-      let tempArray=[...getGlobalTaskList.slice(0,i),...getGlobalTaskList.slice(i+1)];
-      setLocalTaskList(tempArray);
-      setGlobalTaskList(tempArray);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);    
+      let tempArray0=globalstate;
+      let tempArray=[...tempArray0.slice(0,i),...tempArray0.slice(i+1)];
+      dispatch(updateLocalToDoItem(tempArray));
+      dispatch(updateGlobalToDoItem(tempArray));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
-    else if(getActiveTab===2){
-      let i=getTempIndex;
+    
+    else if(acttab===2){
+      let i=tempIndex;
       console.log("Active tab is 2");
-      let tempArray2=[...getGlobalTaskList];
-      const temp=getLocalTaskList[i].id;
-      tempArray2.filter((o,n)=>{
+      let tempArray2=[...globalstate];
+      const temp=localstate[i].id;
+      tempArray2.filter((o,n)=>{  
         if(o.id===temp){
           let tempArray=[...tempArray2.slice(0,n),...tempArray2.slice(n+1)];
           console.log("id===temp found and o,n,temparray is",o,n,tempArray);
-          tempArray2=[...tempArray]
+          tempArray2=[...tempArray];
           console.log(tempArray2);
         }});
       console.log("outing",tempArray2);
-      setGlobalTaskList(tempArray2);
+      dispatch(updateGlobalToDoItem(tempArray2));
       let tempArray1=tempArray2.filter(obj=>!obj.done);
-      setLocalTaskList(tempArray1);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);     
-      setIsOpen(false);    
+      dispatch(updateLocalToDoItem(tempArray1));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      setIsOpen(false);
     }
     else{
       let i=direct; 
       console.log("Active tab is 3");
-      let tempArray=[...getGlobalTaskList];
-      console.log("Local task list and i is:",getLocalTaskList,i);
-      const temp=getLocalTaskList[i].id;
+      let tempArray=[...globalstate];
+      console.log("Local task list and i is:",localstate,i);
+      const temp=localstate[i].id;
       tempArray.filter((o,n)=>{
         if(o.id===temp){
           let tempArray1=[...tempArray.slice(0,n),...tempArray.slice(n+1)];
@@ -130,12 +143,13 @@ function App() {
           console.log(tempArray);
         }});
       console.log(tempArray);
-      setGlobalTaskList(tempArray);
+      dispatch(updateGlobalToDoItem(tempArray));
       let tempArray2=tempArray.filter(obj=>obj.done);
-      setLocalTaskList(tempArray2);
-      setTotalTask((getGlobalTaskList.filter(o=>!o.done)).length);
-      setIsOpen(false); 
+      dispatch(updateLocalToDoItem(tempArray2));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      setModalIsOpen(false);
     }
+    
     
   }
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -144,56 +158,35 @@ function App() {
       <div className="mainBox">
         <div className="divh1">
           <h1>Todo App</h1>
-        </div>
+        </div>  
+        
         <InputBoxEnter 
-          getActiveTab={getActiveTab}
-          getLocalTaskList={getLocalTaskList}
-          getGlobalTaskList={getGlobalTaskList}
-          setGlobalTaskList={setGlobalTaskList}
-          setTotalTask={setTotalTask}
-          setLocalTaskList={setLocalTaskList}
+        
         />
+        
         <ContentCards 
-          getActiveTab={getActiveTab}
-          setGlobalTaskList={setGlobalTaskList}
-          getLocalTaskList={getLocalTaskList}
           checkChange={checkChange}
-          setTempIndex={setTempIndex}
           deleteButton={deleteButton}
           openModal={openModal} 
         />
         <CardSwitchButton 
-          getActiveTab={getActiveTab}
           allTab={allTab}
           activeTab={activeTab}
           completedTab={completedTab}
-          getTotalTask={getTotalTask}
-
         />
       </div>
 
       <Modal
           isOpen={modalIsOpen} onAfterOpen={afterOpenModal} 
           onRequestClose={closeModal} 
-          
           style={{
-            content:{
-              top:'50%',
-              left: '50%',
-              right: 'auto',
-              bottom: 'auto',
-              marginRight: '0%',
-              transform: 'translate(-50%, -50%)',},
+            content:{top:'50%',left: '50%',right: 'auto',bottom: 'auto',
+              marginRight: '0%',transform: 'translate(-50%, -50%)',},
             overlay:{
-              width:'20%',
-              top:'50%',
-              left: '50%',
-              right: 'auto',
-              bottom: 'auto',
-              backgroundColor:'red',              
+              width:'30%',top:'50%',left: '50%',right: 'auto',
+              bottom: 'auto',backgroundColor:'red',              
             }, 
           }} 
-            
           contentLabel="Example Modal"> 
           <div>Are you confirm?</div>
           <button onClick={closeModal}>Cancel</button>
