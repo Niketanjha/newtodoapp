@@ -30,23 +30,27 @@
     };
       .enterBox{  
         height: 10vh;
-        width: 20%;
+        width: 30%;
       }
       .dateAndSubmit{
         display: flex;
         flex-direction: row;
-        
+        justify-content: center;
       }
         .datePicker{
           display: flex;
-          flex:0.7;
-          width: 35%;
+          flex:0.9;
+          
         }
         .addButton{
           display: flex;
-          flex:0.3;
+          flex:0.1;
           width: 10%;
           border: 1px solid;
+          
+        }
+        .fontIcon{
+          visibility: hidden;
         }
 
         ::placeholder{
@@ -66,15 +70,24 @@
         padding: 6%;
         
       }
+        .dateAndTimeText{
+          font-weight: bold;
+          font-size: 80%;
+          width: 30%;
+        }
       .card:hover{ 
       }
         .task{
           margin-left: 5%;
+          font-size: 50%;
+          overflow-wrap: break-word;
+          width: 33%;
         }
         .delButton{
           border: 0px;
           background-color: white;
         }
+        
            
     .cardButton{
       display: flex;
@@ -127,6 +140,19 @@
   .buttonText{
     font-size: 80%;
   }
+  .dateAndTimeText{
+    font-weight: bold;
+    font-size: 40%;
+    width: 50%;
+    margin-left: 5%;
+    padding: 0%;
+  }
+  .dateAndSubmit{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+    
 
 }
 @media screen and (max-width:769px) {
@@ -135,3 +161,38 @@
     width: 70%;
   }
 }
+
+@media screen and (max-width:350px){
+  .dateAndSubmit{
+    display: flex;
+    flex-direction: column;
+    flex:0.5;
+  }
+  .datePicker{
+    
+  }
+  .addButton{
+    max-width: 100%; 
+    min-width:100%;
+    background-color: #24a0ed;
+  }
+    .addButtonText{
+        align-content: center;
+        padding-left: 40%;
+    }
+}
+/* @media screen and (max-width:310px) {
+  
+  .dateAndSubmit{
+    display: flex;
+    flex-direction: column;
+  }
+  .addButton{
+    min-width: 100%;
+  }
+    .addButtonText{
+      visibility: visible;  
+      font-size: 100%;
+      padding-top:50%;
+    }
+} */

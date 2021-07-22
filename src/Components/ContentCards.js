@@ -2,15 +2,19 @@ import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import store from '../Redux/store';
 import './ContentCards.css'
+import Moment from 'react-moment';
+import 'moment-timezone';
+import moment from 'moment-timezone';
 
 function ContentCards(props){
     console.log("contentCard");
     const data=useSelector(state=>state.localToDoReducer);
     const acttab=useSelector(state=>state.setActiveTab);
+    const date=new Date();
     return(
         <div className="contentCards">
         {data.map((list,i)=>{
-            console.log(list,i);
+            console.log(i,moment(list.date).fromNow());
             return(
                 <div className="card" key={list.id}>
                     <input type="checkbox" 
@@ -19,9 +23,19 @@ function ContentCards(props){
                         defaultChecked={list.done}
                         style={{width:"30px",height:"30px",
                         borderRadius:"15px"
-                        }}>    
+                        }}
+                    >    
                     </input>
                     <span className="task" style={{textDecoration:list.done?"line-through":"none"}}>{list.task}</span>
+                    <span className="dateAndTimeText">
+                        {}
+                        {(list.date.getTime()-Date.now())>0?("Deadline "+moment(list.date).fromNow()):"Deadline Expired "+(moment(list.date).fromNow())}
+                        
+                        {/* {(list.date.getDate()-date.getDate())>0?"Days Remaining: "+(list.date.getDate()-date.getDate()):""}
+                        {list.date.getMonth()-date.getMonth()>0?(list.date.getMonth()-date.getMonth()):""}
+                        {list.date.getFullYear()-date.getFullYear()>0?(list.date.getFullYear()-date.getFullYear()):""}
+                        {list.date.getHours()-date.getHours()>0?(list.date.getHours()-date.getHours()):""} */}
+                    </span>
                     <button className="delButton" 
                     onClick={()=>{
                         if(acttab===3){
