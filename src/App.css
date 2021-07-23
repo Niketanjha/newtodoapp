@@ -1,3 +1,4 @@
+
 .mainClass{
   display: flex;
   flex-direction: column;
@@ -12,7 +13,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 5%;
-    width: 30%;
+    width: 40%;
   }
     .divh1{
       display: flex;
@@ -41,6 +42,9 @@
           display: flex;
           flex:0.9;
           
+        }
+        .datePicker1{
+          width: 90%;
         }
         .addButton{
           display: flex;

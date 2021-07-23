@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 import ContentCards from './Components/ContentCards'
 import InputBoxEnter from './Components/InputBoxEnter';
 import CardSwitchButton from './Components/CardSwitchButton';
+// import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 import {addGlobalToDoItem, deleteGlobalToDoItem, 
         updateGlobalToDoItem, getGlobalToDoItem,
@@ -158,6 +160,7 @@ function App() {
     <div className="mainClass">
       <div className="mainBox">
         <div className="divh1">
+          <i class="fa fa-check bg-primary text-white rounded p-4"></i>
           <h1>Todo App</h1>
         </div>  
         

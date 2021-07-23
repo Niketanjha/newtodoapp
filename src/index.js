@@ -5,6 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import store from './Redux/store';
+import "bootstrap/dist/css/bootstrap.css"
+import "font-awesome/css/font-awesome.css";
+import "tempusdominus-bootstrap/build/css/tempusdominus-bootstrap.css";
 
 ReactDOM.render(
   <React.StrictMode>
