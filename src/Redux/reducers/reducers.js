@@ -15,6 +15,7 @@ export function globalToDoReducer(state=[],action){
                 id:action.payload.id,
                 task:action.payload.task,
                 done:action.payload.done,
+                date:action.payload.date
             };
             state.push(tempTodo);
             console.log("its switch",state,action);
@@ -41,6 +42,7 @@ export function localToDoReducer(state=[],action){
                 id:action.payload.id,
                 task:action.payload.task,
                 done:action.payload.done,
+                date:action.payload.date
             };
             state.push(tempTodo);
             console.log("its switch",state,action);

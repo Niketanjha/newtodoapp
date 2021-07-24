@@ -1,3 +1,4 @@
+
 .mainClass{
   display: flex;
   flex-direction: column;
@@ -12,7 +13,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 5%;
-    width: 30%;
+    width: 40%;
   }
     .divh1{
       display: flex;
@@ -21,31 +22,76 @@
     .divh1 h1{
       font-size: 5vw;
     }
-    .enterBox{
-      width: 100%;
-      height: 10vh;
-    }
-      ::placeholder{
-        font-size: 100%;
-      }
-    .contentCards{
 
+
+    .inputBox{
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    };
+      .enterBox{  
+        height: 10vh;
+        width: 30%;
+      }
+      .dateAndSubmit{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+        .datePicker{
+          display: flex;
+          flex:0.9;
+          
+        }
+        .datePicker1{
+          width: 90%;
+        }
+        .addButton{
+          display: flex;
+          flex:0.1;
+          width: 10%;
+          border: 1px solid;
+          
+        }
+        .fontIcon{
+          visibility: hidden;
+        }
+
+        ::placeholder{
+          font-size: 100%;
+        }
+
+
+    .contentCards{
+      min-height:50vh;
+      max-height: 50vh;
+      overflow-y: scroll;
     }
       .card{
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: 6%;
+        
       }
+        .dateAndTimeText{
+          font-weight: bold;
+          font-size: 80%;
+          width: 30%;
+        }
       .card:hover{ 
       }
         .task{
           margin-left: 5%;
+          font-size: 50%;
+          overflow-wrap: break-word;
+          width: 33%;
         }
         .delButton{
           border: 0px;
           background-color: white;
         }
+        
            
     .cardButton{
       display: flex;
@@ -74,12 +120,83 @@
       margin-right:-50%;
       transform: translate(-50%, -50%);
     }
-    .overlayModal{
-      background-color: red;
-    }
+      .delButton{
+        background-color: red;
+      }
+    /* .overlayModal{
+      
+    } */
 
 @media screen and (max-width:610px) {
   ::placeholder{
     font-size: 50%;
   }
+  .mainBox{
+    margin-top: 5%;
+    width: 70%;
+  }
+  .overlayModal{
+    
+  }
+  .delButton{
+    width: 50%;
+  }
+  .buttonText{
+    font-size: 80%;
+  }
+  .dateAndTimeText{
+    font-weight: bold;
+    font-size: 40%;
+    width: 50%;
+    margin-left: 5%;
+    padding: 0%;
+  }
+  .dateAndSubmit{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+    
+
 }
+@media screen and (max-width:769px) {
+  .mainBox{
+    margin-top: 5%;
+    width: 70%;
+  }
+}
+
+@media screen and (max-width:350px){
+  .dateAndSubmit{
+    display: flex;
+    flex-direction: column;
+    flex:0.5;
+  }
+  .datePicker{
+    
+  }
+  .addButton{
+    max-width: 100%; 
+    min-width:100%;
+    background-color: #24a0ed;
+  }
+    .addButtonText{
+        align-content: center;
+        padding-left: 40%;
+    }
+}
+/* @media screen and (max-width:310px) {
+  
+  .dateAndSubmit{
+    display: flex;
+    flex-direction: column;
+  }
+  .addButton{
+    min-width: 100%;
+  }
+    .addButtonText{
+      visibility: visible;  
+      font-size: 100%;
+      padding-top:50%;
+    }
+} */

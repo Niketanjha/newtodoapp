@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 import ContentCards from './Components/ContentCards'
 import InputBoxEnter from './Components/InputBoxEnter';
 import CardSwitchButton from './Components/CardSwitchButton';
+// import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 import {addGlobalToDoItem, deleteGlobalToDoItem, 
         updateGlobalToDoItem, getGlobalToDoItem,
@@ -24,6 +26,7 @@ function App() {
   const tempIndex=useSelector(state=>state.setTempIndex);
   const modalState=useSelector(state=>state.ModalIsOpen);   
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
 
   console.log("function app rendered");
   //////////////////////Functions for modals 
@@ -43,20 +46,20 @@ function App() {
     let tempArray1=globalstate.filter(obj=>!obj.done);
     dispatch(updateLocalToDoItem(tempArray1));
     dispatch(set_Active_Tab(2));
-    dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
+    // dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
   };
   function completedTab(){
- let tempArray1=(globalstate).filter(o=>o.done)
-    dispatch(updateLocalToDoItem(tempArray1));
-    dispatch(set_Active_Tab(3));
-    dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
-    const temp=globalstate;
-    dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
-  };
+      let tempArray1=(globalstate).filter(o=>o.done)
+      dispatch(updateLocalToDoItem(tempArray1));
+      dispatch(set_Active_Tab(3));
+      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
+      const temp=globalstate;
+      // dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
+    };
   function allTab(){
     dispatch(updateLocalToDoItem([...globalstate]));
     dispatch(set_Active_Tab(1));
-    dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
+    // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
   };
 ////////////////////////////////////////////////////////////////////////////////////////
   function checkChange(i){
@@ -66,7 +69,7 @@ function App() {
       console.log(tempArray1,i);  
       tempArray1[i].done=!(tempArray1[i].done);
       dispatch(updateGlobalToDoItem([...tempArray1]));
-      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       dispatch(updateLocalToDoItem([...globalstate]));
       console.log("Active tab is 1");
     }
@@ -81,7 +84,7 @@ function App() {
       dispatch(updateGlobalToDoItem(tempArray0));
       let tempArray2=(globalstate).filter(obj=>!obj.done);      
       dispatch(updateLocalToDoItem(tempArray2));
-      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
     else{ /*else for Active tab 3*/
       console.log("Active tab is 3");
@@ -94,7 +97,7 @@ function App() {
       dispatch(updateGlobalToDoItem(tempArray0));
       let tempArray2=(globalstate).filter(obj=>obj.done);      
       dispatch(updateLocalToDoItem(tempArray2));
-      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
   }; 
     
@@ -106,7 +109,7 @@ function App() {
       let tempArray=[...tempArray0.slice(0,i),...tempArray0.slice(i+1)];
       dispatch(updateLocalToDoItem(tempArray));
       dispatch(updateGlobalToDoItem(tempArray));
-      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
     
@@ -126,7 +129,7 @@ function App() {
       dispatch(updateGlobalToDoItem(tempArray2));
       let tempArray1=tempArray2.filter(obj=>!obj.done);
       dispatch(updateLocalToDoItem(tempArray1));
-      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
     else{
@@ -146,7 +149,7 @@ function App() {
       dispatch(updateGlobalToDoItem(tempArray));
       let tempArray2=tempArray.filter(obj=>obj.done);
       dispatch(updateLocalToDoItem(tempArray2));
-      dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
+      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setModalIsOpen(false);
     }
     
@@ -157,11 +160,12 @@ function App() {
     <div className="mainClass">
       <div className="mainBox">
         <div className="divh1">
+          <i class="fa fa-check bg-primary text-white rounded p-4"></i>
           <h1>Todo App</h1>
         </div>  
         
         <InputBoxEnter 
-        
+          completedTab={completedTab}
         />
         
         <ContentCards 
@@ -179,6 +183,7 @@ function App() {
       <Modal
           isOpen={modalIsOpen} onAfterOpen={afterOpenModal} 
           onRequestClose={closeModal} 
+          overlayClassName="overlayModal"
           style={{
             content:{top:'50%',left: '50%',right: 'auto',bottom: 'auto',
               marginRight: '0%',transform: 'translate(-50%, -50%)',},
@@ -188,9 +193,9 @@ function App() {
             }, 
           }} 
           contentLabel="Example Modal"> 
-          <div>Are you confirm?</div>
-          <button onClick={closeModal}>Cancel</button>
-          <button onClick={deleteButton}>Delete</button>      
+          <div><span className="buttonText">Are you confirm?</span></div>
+          <button className="delButton" onClick={closeModal}><span className="buttonText">Cancel</span></button>
+          <button className="delButton" onClick={deleteButton}><span className="buttonText">Delete</span></button>      
       </Modal> 
     </div>
   );
