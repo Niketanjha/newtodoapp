@@ -158,26 +158,31 @@ function App() {
 /////////////////////////////////////////////////////////////////////////////////////////
   return(
     <div className="mainClass">
-      <div className="mainBox">
-        <div className="divh1">
-          <i class="fa fa-check bg-primary text-white rounded p-4"></i>
-          <h1>Todo App</h1>
-        </div>  
-        
+      <div className="blueTopBar">
+        <span className="toDoText">ToDo App</span>
+      </div>
+      <div className="mainBox">      
         <InputBoxEnter 
           completedTab={completedTab}
-        />
-        
-        <ContentCards 
-          checkChange={checkChange}
-          deleteButton={deleteButton}
-          openModal={openModal} 
         />
         <CardSwitchButton 
           allTab={allTab}
           activeTab={activeTab}
           completedTab={completedTab}
         />
+        
+        
+        
+        <ContentCards 
+          checkChange={checkChange}
+          deleteButton={deleteButton}
+          openModal={openModal} 
+        />
+        {/* <CardSwitchButton 
+          allTab={allTab}
+          activeTab={activeTab}
+          completedTab={completedTab}
+        /> */}
       </div>
 
       <Modal

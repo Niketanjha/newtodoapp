@@ -34,7 +34,7 @@ function InputBoxEnter(props){
     }
     return(
         <div >
-        <div class="row m-1 p-1">
+        {/* <div class="row m-1 p-1">
             <div class="col col-11 mx-auto">
                 <div class="row bg-white rounded shadow-sm p-2 add-todo-wrapper align-items-center justify-content-center">
                     <div class="col">
@@ -51,42 +51,40 @@ function InputBoxEnter(props){
                     </div>
                 </div>
             </div>
-        </div>
-        <i class="bi bi-bullseye"></i>
+        </div> */}
+        {/* <i class="bi bi-bullseye"></i> */}
 
             <form className="inputBox" onSubmit={handleSubmit}>
-                <input className="form-control form-control-lg enterBox" type="text"
-                    required={true}
-                    onChange={(event)=>{
-                        setTask(event.target.value);
-                    }}
-                    value={getTask} placeholder="What needs to be done?"
-                >    
-                </input>
-                    <div  className="dateAndSubmit">
-                        <DateTimePicker 
-                        
-                            className="datePicker"
-                            onChange={setDate}
-                            value={getDate}
-                            disableClock={true}
-                            required={true}
-                            clearIcon={null}
-                            
-                        />
-                        <DateTimePicker1 
+                    <input className="form-control form-control-lg " 
+                        id="enterBox"  type="text" required={true}
+                        onChange={(event)=>{
+                            setTask(event.target.value);
+                        }}
+                        value={getTask} placeholder="What needs to be done?"
+                    >    
+                    </input>
+                    <DateTimePicker 
+                        style={{backgroundColor:"white"}}                        
+                        className="datePicker"
+                        onChange={setDate}
+                        value={getDate}
+                        disableClock={false}
+                        required={true}       
+                    />
+                    <button type="submit" class="btn btn-primary" id="addButton">Add Task</button>
+                        {/* <DateTimePicker1 
                             className="datePicker1"
                             onChange={e => setDate(e.date)}
                             date={getDate}
-                        />
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        /> */}
+                    
                         {/* <button type="submit" className="addButton"><span className="addButtonText">Add
                         </span></button> */}
 
                         {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor fontIcon" viewBox="0 0 16 16">
                             <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>
                         </svg> */}
-                    </div>
+                    
             </form>
         </div>
     );
