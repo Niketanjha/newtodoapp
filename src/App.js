@@ -159,7 +159,7 @@ function App() {
   return(
     <div className="mainClass">
       <div className="blueTopBar">
-        <span className="toDoText">ToDo App</span>
+        {/* <span className="toDoText">ToDo App</span> */}
       </div>
       <div className="mainBox">      
         <InputBoxEnter 

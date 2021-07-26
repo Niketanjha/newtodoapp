@@ -19,8 +19,7 @@
       color: white;
       font-size: 250%;
       font-family: sans-serif;
-      margin:0 auto;
-
+      margin-left: 40%;
     }
   .mainBox{
     display: flex;
@@ -114,7 +113,7 @@
       }
         .task{
           margin-left: 5%;
-          font-size: 50%;
+          font-size: 40%;
           overflow-wrap: break-word;
           width: 33%;
         }
@@ -183,7 +182,7 @@
   }
   .dateAndTimeText{
     font-weight: bold;
-    font-size: 40%;
+    font-size: 50%;
     width: 50%;
     margin-left: 5%;
     padding: 0%;
