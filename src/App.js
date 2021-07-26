@@ -19,6 +19,7 @@ import { setTempIndex } from './Redux/reducers/reducers';
 Modal.setAppElement("#root");   
 
 function App() {
+  
   const dispatch =useDispatch();
   const globalstate=useSelector(state=>state.globalToDoReducer);
   const localstate=useSelector(state=>state.localToDoReducer);
@@ -27,7 +28,32 @@ function App() {
   const modalState=useSelector(state=>state.ModalIsOpen);   
   const [modalIsOpen, setIsOpen] = React.useState(false);
   dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
+  
+  useEffect(() => {
+    const x=localStorage.getItem("newGlobalState");
+    if(x===null){
+      localStorage.setItem("newGlobalState",[]);
+    }
+    else{
+      console.log(JSON.parse(x));
+      dispatch(updateGlobalToDoItem(JSON.parse(x)));
+    }
+    // (localStorage.getItem("newGlobalState")));  
+  }, []);
+  const data=localStorage.getItem("newGlobalState");
+  console.log(data);
+  
+  
+  // useEffect(()=>{
+  //   dispatch(updateGlobalToDoItem(localStorage.getItem("newGlobalState")));
+  // },[]);
 
+  
+
+  // localStorage.setItem("newGlobalState",JSON.stringify(globalstate));
+  
+  // console.log("localstorage: ",(localStorage.getItem("newGlobalState")));
+  
   console.log("function app rendered");
   //////////////////////Functions for modals 
   function openModal(i) {
@@ -165,13 +191,6 @@ function App() {
         <InputBoxEnter 
           completedTab={completedTab}
         />
-        <CardSwitchButton 
-          allTab={allTab}
-          activeTab={activeTab}
-          completedTab={completedTab}
-        />
-        
-        
         
         <ContentCards 
           checkChange={checkChange}
@@ -184,6 +203,11 @@ function App() {
           completedTab={completedTab}
         /> */}
       </div>
+      <CardSwitchButton 
+          allTab={allTab}
+          activeTab={activeTab}
+          completedTab={completedTab}
+        />
 
       <Modal
           isOpen={modalIsOpen} onAfterOpen={afterOpenModal} 

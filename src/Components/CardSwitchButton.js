@@ -14,9 +14,9 @@ function CardSwitchButton(props){
         <>
           <div className="cardButton">
             <span className="itemLeftText">{actvTab===3?"Completed "+totalCompletedTask:"Items left "+totalTask} </span>
-            <button className={activebuttontab===1? 'activeButton':'switchButton'} onClick={props.allTab}><span className="textClass">All</span></button>
-            <button className={activebuttontab===2? 'activeButton':'switchButton'} onClick={props.activeTab} ><span className="textClass">Active</span></button>
-            <button className={activebuttontab===3? 'activeButton':'switchButton'} onClick={props.completedTab}><span className="textClass">Completed</span></button>
+            <button className={activebuttontab===1? 'activeButton':'switchButton'} onClick={props.allTab}><span className="textClass1">All</span></button>
+            <button className={activebuttontab===2? 'activeButton':'switchButton'} onClick={props.activeTab} ><span className="textClass1">Active</span></button>
+            <button className={activebuttontab===3? 'activeButton':'switchButton'} onClick={props.completedTab}><span className="textClass1">Completed</span></button>
           </div>
         </>
     );

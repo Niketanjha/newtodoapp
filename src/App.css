@@ -24,7 +24,8 @@
   .mainBox{
     display: flex;
     flex-direction: column;
-    margin-top: -10%;
+    margin-top:-120px;
+    /* margin-top: -10%; */
     width: 70%;
   }
     .divh1{
@@ -40,21 +41,37 @@
       display: flex;
       flex-direction: row;
       flex: 1;
-      background-color: white;
+      background-color: #2640AE;
     }
       #enterBox{  
-        flex:0.6;
+        flex:0.6; 
         
       }
-      .datePicker{
-        display: flex;   
-        flex:0.33;    
+      .secondBox{
+        display: flex;
+        flex:0.4;
+        flex-direction: row;
+        background-color: white;
+        padding: 0px;
       }
-      #addButton{
-        flex: 0.1;
-        border-radius: 0px;
-        margin-left: 1px;
-      }
+        .datePicker{
+          height: 100%;
+          display: flex;
+          flex:0.8;
+        }
+        #addButton{
+          border-radius: 0px;
+          height: 100%;
+          display: flex;
+          flex:0.2;
+          background-color: #0069D9;
+          border: solid 0px;
+          color: white;
+        }
+          .addTaskText{
+            font-size:100%;
+            padding:0%;
+          }
     
       /* .addButton{
         display: flex;
@@ -72,8 +89,8 @@
 
 
     .contentCards{
-      min-height:50vh;
-      max-height: 70vh;
+      min-height:72vh;
+      max-height: 72vh;
       overflow-y: scroll;
       margin-top: 2%;
     }
@@ -130,6 +147,7 @@
       margin-top: 1%;
       border-radius: 5px;
       flex-wrap: wrap;
+      width: 69.5%;
     }
       .itemLeftText{
         font-size: 130%;
@@ -144,7 +162,7 @@
         border: 5px;
         
       }
-      .cardButton .textClass{
+      .cardButton .textClass1{
         font-size:140%;
       }
 
@@ -166,10 +184,6 @@
 @media screen and (max-width:610px) {
   ::placeholder{
     font-size: 50%;
-  }
-  .mainBox{
-    margin-top: 5%;
-    width: 70%;
   }
   .overlayModal{
     
@@ -195,12 +209,12 @@
     
 
 }
-@media screen and (max-width:769px) {
+/* @media screen and (max-width:769px) {
   .mainBox{
     margin-top: 5%;
     width: 70%;
   }
-}
+} */
 
 @media screen and (max-width:350px){
   .dateAndSubmit{
@@ -236,3 +250,83 @@
       padding-top:50%;
     }
 } */
+
+/* 1160 */
+
+
+@media screen and (max-width:1188px) {
+  .inputBox{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #2640AE;
+  }
+    #enterBox{  
+      flex:0.6; 
+      
+    }
+    .secondBox{
+      display: flex;
+      flex:0.4;
+      flex-direction: row;
+      background-color: white;
+      padding: 0px;
+    }
+      .datePicker{
+        height: auto;
+        display: flex;
+        flex:0.85;
+      }
+      #addButton{
+        border-radius: 0px;
+        display: flex;
+        flex:0.15;
+        height: auto;
+        padding: auto;
+      }
+      .addTaskText{
+        font-size: auto;
+        padding:0%;
+      }
+      
+
+}
+
+@media screen and (max-width:428px) {
+  .secondBox{
+    flex-direction: column;
+  }
+  #addButton{
+    padding-left: 40%;
+  }
+}
+
+@media screen and (max-width:642px){
+  .contentCards{
+    min-height:60vh;
+    max-height: 67vh;
+    overflow-y: scroll;
+    margin-top: 2%;
+  } 
+}
+@media screen and (max-width:480px){
+  .contentCards{
+    min-height:66vh;
+    max-height: 66vh;
+    overflow-y: scroll;
+    margin-top: 2%;
+  } 
+  .itemLeftText{
+    font-size: 70%;
+  }
+  .cardButton .textClass1{
+    font-size: 80%;
+  }
+  .mainBox{
+    margin-top:-140px;
+    width: 90%;
+  }
+  .cardButton{
+    width: 90%;
+  }
+}
