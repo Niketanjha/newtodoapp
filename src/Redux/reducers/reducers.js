@@ -1,13 +1,35 @@
-// const [getGlobalTaskList,setGlobalTaskList]=useState([]);
-//   const [getLocalTaskList,setLocalTaskList]=useState([...getGlobalTaskList]);
-//   const [getTotalTask,setTotalTask]=useState(0);
-//   const [getActiveTab,setActiveTab]=useState(1);
-//   const [getStyle,setStyle]=useState({display:'none'});
-//   const [modalIsOpen, setIsOpen] = React.useState(false);
-
 import store from "../store";
 
-//   const [getTempIndex,setTempIndex]=useState();
+function getLocalStorage(){
+    const x=localStorage.getItem("newGlobalState");
+    if(x==="" || x===null){
+      localStorage.setItem("newGlobalState",[]);
+      return([]); 
+    }
+    else{
+      console.log(JSON.parse(x));
+      const temp=(JSON.parse(x)).map((key)=>{
+        for(let o in key){
+          if(o==="date"){
+            key['date']= new Date(key['date']); 
+          }
+        }
+        return key; 
+      });
+      console.log(temp);
+      return temp; 
+    }
+}
+export function localStorageReducer(state=getLocalStorage(),action){
+    switch(action.type){
+        case "ADD_LOCAL_STORAGE":
+            localStorage.setItem("newGlobalState",JSON.stringify(action.payload));
+            return state; 
+        default:
+            return state; 
+    }
+}
+
 export function globalToDoReducer(state=[],action){
     switch(action.type){
         case "ADD_GLOBAL_TO_DO":
