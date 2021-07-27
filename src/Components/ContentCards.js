@@ -29,11 +29,6 @@ function ContentCards(props){
                     <span className="task" style={{textDecoration:list.done?"line-through":"none"}}>{list.task}</span>
                     <span className="dateAndTimeText">
                         {(list.date.getTime()-Date.now())>0?("Deadline "+moment(list.date).fromNow()):"Deadline Expired "+(moment(list.date).fromNow())}
-                        
-                        {/* {(list.date.getDate()-date.getDate())>0?"Days Remaining: "+(list.date.getDate()-date.getDate()):""}
-                        {list.date.getMonth()-date.getMonth()>0?(list.date.getMonth()-date.getMonth()):""}
-                        {list.date.getFullYear()-date.getFullYear()>0?(list.date.getFullYear()-date.getFullYear()):""}
-                        {list.date.getHours()-date.getHours()>0?(list.date.getHours()-date.getHours()):""} */}
                     </span>
                     <button className="delButton" 
                         onClick={()=>{

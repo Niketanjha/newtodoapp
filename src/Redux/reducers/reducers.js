@@ -1,13 +1,5 @@
-// const [getGlobalTaskList,setGlobalTaskList]=useState([]);
-//   const [getLocalTaskList,setLocalTaskList]=useState([...getGlobalTaskList]);
-//   const [getTotalTask,setTotalTask]=useState(0);
-//   const [getActiveTab,setActiveTab]=useState(1);
-//   const [getStyle,setStyle]=useState({display:'none'});
-//   const [modalIsOpen, setIsOpen] = React.useState(false);
-
 import store from "../store";
 
-//   const [getTempIndex,setTempIndex]=useState();
 function getLocalStorage(){
     const x=localStorage.getItem("newGlobalState");
     if(x==="" || x===null){
@@ -26,7 +18,6 @@ function getLocalStorage(){
       });
       console.log(temp);
       return temp; 
-    //   dispatch(updateGlobalToDoItem(temp));
     }
 }
 export function localStorageReducer(state=getLocalStorage(),action){

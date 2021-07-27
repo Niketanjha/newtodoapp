@@ -4,8 +4,6 @@ import Modal from 'react-modal';
 import ContentCards from './Components/ContentCards'
 import InputBoxEnter from './Components/InputBoxEnter';
 import CardSwitchButton from './Components/CardSwitchButton';
-// import "bootstrap-icons/font/bootstrap-icons.css";
-
 
 import {addGlobalToDoItem, deleteGlobalToDoItem, 
         updateGlobalToDoItem, getGlobalToDoItem,
@@ -35,7 +33,7 @@ function App() {
   },[])
   
   console.log("function app rendered");
-  //////////////////////Functions for modals 
+ 
   function openModal(i) {
     setIsOpen(true);
     dispatch(set_Temp_Index(i));
@@ -46,13 +44,12 @@ function App() {
    function closeModal() {
     setIsOpen(false);
   }
-/////////////////////////////////////////////////////////////////
+
   function activeTab(){
     
     let tempArray1=globalstate.filter(obj=>!obj.done);
     dispatch(updateLocalToDoItem(tempArray1));
     dispatch(set_Active_Tab(2));
-    // dispatch(set_Total_Task(globalstate.filter(o=>!o.done).length));
   };
   function completedTab(){
       let tempArray1=(globalstate).filter(o=>o.done)
@@ -60,14 +57,11 @@ function App() {
       dispatch(set_Active_Tab(3));
       dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
       const temp=globalstate;
-      // dispatch(set_Total_Task((temp.filter(o=>!o.done)).length));     
     };
   function allTab(){
     dispatch(updateLocalToDoItem([...globalstate]));
     dispatch(set_Active_Tab(1));
-    // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
   };
-////////////////////////////////////////////////////////////////////////////////////////
   function checkChange(i){
     console.log(i);
     if(acttab===1){
@@ -76,7 +70,6 @@ function App() {
       tempArray1[i].done=!(tempArray1[i].done);
       dispatch(updateGlobalToDoItem([...tempArray1]));
       dispatch(addLocalStorage(tempArray1));
-      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       dispatch(updateLocalToDoItem([...globalstate]));
       console.log("Active tab is 1");
     }
@@ -92,7 +85,6 @@ function App() {
       dispatch(addLocalStorage(tempArray0));
       let tempArray2=(globalstate).filter(obj=>!obj.done);      
       dispatch(updateLocalToDoItem(tempArray2));
-      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
     else{ /*else for Active tab 3*/
       console.log("Active tab is 3");
@@ -106,7 +98,6 @@ function App() {
       dispatch(addLocalStorage(tempArray0));
       let tempArray2=(globalstate).filter(obj=>obj.done);      
       dispatch(updateLocalToDoItem(tempArray2));
-      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
     }
   }; 
     
@@ -119,7 +110,6 @@ function App() {
       dispatch(updateLocalToDoItem(tempArray));
       dispatch(updateGlobalToDoItem(tempArray));
       dispatch(addLocalStorage(tempArray));
-      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
     
@@ -141,8 +131,6 @@ function App() {
 
       let tempArray1=tempArray2.filter(obj=>!obj.done);
       dispatch(updateLocalToDoItem(tempArray1));
-      
-      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
     else{
@@ -164,17 +152,15 @@ function App() {
 
       let tempArray2=tempArray.filter(obj=>obj.done);
       dispatch(updateLocalToDoItem(tempArray2));
-      // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setModalIsOpen(false);
     }
     
     
   }
-/////////////////////////////////////////////////////////////////////////////////////////
+
   return(
     <div className="mainClass">
       <div className="blueTopBar">
-        {/* <span className="toDoText">ToDo App</span> */}
       </div>
       <div className="mainBox">      
         <InputBoxEnter 
@@ -186,11 +172,6 @@ function App() {
           deleteButton={deleteButton}
           openModal={openModal} 
         />
-        {/* <CardSwitchButton 
-          allTab={allTab}
-          activeTab={activeTab}
-          completedTab={completedTab}
-        /> */}
       </div>
       <CardSwitchButton 
           allTab={allTab}

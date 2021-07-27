@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import store from '../Redux/store';
 import './CardSwitchButton.css'
 
-//props=getActiveTab,allTab,activeTab,getTotalTask
 function CardSwitchButton(props){
   const activebuttontab=useSelector(state=>state.setActiveTab);
   const totalTask=useSelector(state=>state.totalTaskReducer);
