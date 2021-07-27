@@ -10,6 +10,9 @@ export const updateGlobalToDoItem =(action)=>{
 export const getGlobalToDoItem =(action)=>{
     return {type:"GET_GLOBAL_TO_DO",payload:action}
 };
+export const addLocalStorage=(action)=>{
+    return {type:"ADD_LOCAL_STORAGE",payload:action}
+}
 
 
 export const addLocalToDoItem =(action)=>{

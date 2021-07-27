@@ -11,7 +11,7 @@ import {addGlobalToDoItem, deleteGlobalToDoItem,
         updateGlobalToDoItem, getGlobalToDoItem,
         addLocalToDoItem, updateLocalToDoItem,
         set_Total_Task, set_Active_Tab,
-        setModalIsOpen, set_Temp_Index} from './Redux/actions';
+        setModalIsOpen, set_Temp_Index,addLocalStorage} from './Redux/actions';
 import store from './Redux/store.js';
 import {useSelector,useDispatch} from 'react-redux';
 import { setTempIndex } from './Redux/reducers/reducers';
@@ -19,40 +19,20 @@ import { setTempIndex } from './Redux/reducers/reducers';
 Modal.setAppElement("#root");   
 
 function App() {
-  
   const dispatch =useDispatch();
   const globalstate=useSelector(state=>state.globalToDoReducer);
   const localstate=useSelector(state=>state.localToDoReducer);
   const acttab=useSelector(state=>state.setActiveTab);
   const tempIndex=useSelector(state=>state.setTempIndex);
-  const modalState=useSelector(state=>state.ModalIsOpen);   
+  const modalState=useSelector(state=>state.ModalIsOpen);
+  const localStorageVariable= useSelector(state=>state.localStorageReducer);   
   const [modalIsOpen, setIsOpen] = React.useState(false);
   dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length));
   
-  useEffect(() => {
-    const x=localStorage.getItem("newGlobalState");
-    if(x===null){
-      localStorage.setItem("newGlobalState",[]);
-    }
-    else{
-      console.log(JSON.parse(x));
-      dispatch(updateGlobalToDoItem(JSON.parse(x)));
-    }
-    // (localStorage.getItem("newGlobalState")));  
-  }, []);
-  const data=localStorage.getItem("newGlobalState");
-  console.log(data);
-  
-  
-  // useEffect(()=>{
-  //   dispatch(updateGlobalToDoItem(localStorage.getItem("newGlobalState")));
-  // },[]);
-
-  
-
-  // localStorage.setItem("newGlobalState",JSON.stringify(globalstate));
-  
-  // console.log("localstorage: ",(localStorage.getItem("newGlobalState")));
+  useEffect(()=>{
+    dispatch(updateGlobalToDoItem(localStorageVariable));
+    dispatch(updateLocalToDoItem(localStorageVariable));
+  },[])
   
   console.log("function app rendered");
   //////////////////////Functions for modals 
@@ -95,6 +75,7 @@ function App() {
       console.log(tempArray1,i);  
       tempArray1[i].done=!(tempArray1[i].done);
       dispatch(updateGlobalToDoItem([...tempArray1]));
+      dispatch(addLocalStorage(tempArray1));
       // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       dispatch(updateLocalToDoItem([...globalstate]));
       console.log("Active tab is 1");
@@ -108,6 +89,7 @@ function App() {
             o.done=!o.done;
           }});
       dispatch(updateGlobalToDoItem(tempArray0));
+      dispatch(addLocalStorage(tempArray0));
       let tempArray2=(globalstate).filter(obj=>!obj.done);      
       dispatch(updateLocalToDoItem(tempArray2));
       // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
@@ -121,6 +103,7 @@ function App() {
           o.done=!o.done;
         }});
       dispatch(updateGlobalToDoItem(tempArray0));
+      dispatch(addLocalStorage(tempArray0));
       let tempArray2=(globalstate).filter(obj=>obj.done);      
       dispatch(updateLocalToDoItem(tempArray2));
       // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
@@ -135,6 +118,7 @@ function App() {
       let tempArray=[...tempArray0.slice(0,i),...tempArray0.slice(i+1)];
       dispatch(updateLocalToDoItem(tempArray));
       dispatch(updateGlobalToDoItem(tempArray));
+      dispatch(addLocalStorage(tempArray));
       // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
@@ -153,8 +137,11 @@ function App() {
         }});
       console.log("outing",tempArray2);
       dispatch(updateGlobalToDoItem(tempArray2));
+      dispatch(addLocalStorage(tempArray2));
+
       let tempArray1=tempArray2.filter(obj=>!obj.done);
       dispatch(updateLocalToDoItem(tempArray1));
+      
       // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 
       setIsOpen(false);
     }
@@ -173,6 +160,8 @@ function App() {
         }});
       console.log(tempArray);
       dispatch(updateGlobalToDoItem(tempArray));
+      dispatch(addLocalStorage(tempArray));
+
       let tempArray2=tempArray.filter(obj=>obj.done);
       dispatch(updateLocalToDoItem(tempArray2));
       // dispatch(set_Total_Task((globalstate).filter(o=>!o.done).length)); 

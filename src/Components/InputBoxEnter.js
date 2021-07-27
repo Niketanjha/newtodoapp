@@ -1,6 +1,6 @@
 import './InputBoxEnter.css'
 import React, {useEffect, useState} from 'react';
-import {addGlobalToDoItem, addLocalToDoItem, set_Total_Task, updateGlobalToDoItem, updateLocalToDoItem} from '../Redux/actions';
+import {addGlobalToDoItem, addLocalToDoItem, addLocalStorage,set_Total_Task, updateGlobalToDoItem, updateLocalToDoItem} from '../Redux/actions';
 import {useSelector,useDispatch} from 'react-redux';
 import store from '../Redux/store';
 import DateTimePicker from 'react-datetime-picker';
@@ -28,11 +28,11 @@ function InputBoxEnter(props){
                 dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),date:getDate,task:getTask,done:false}]));
                 dispatch(addLocalToDoItem({id:Math.random(),date:getDate,task:getTask,done:false}));
             }
-            console.log(globalstate)
-            localStorage.setItem('newGlobalState',JSON.stringify(globalstate));              
+            console.log(globalstate);           
         }
         setTask("");
         setDate(new Date());
+        dispatch(addLocalStorage([...globalstate,{id:Math.random(),date:getDate,task:getTask,done:false}]));
     }
     return(
         <div >
