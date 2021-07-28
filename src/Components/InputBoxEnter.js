@@ -1,38 +1,22 @@
 import './InputBoxEnter.css'
-import React, {useEffect, useState} from 'react';
-import {addGlobalToDoItem, addLocalToDoItem, addLocalStorage,set_Total_Task, updateGlobalToDoItem, updateLocalToDoItem} from '../Redux/actions';
+import React, {useState} from 'react';
+import {updateGlobalToDoItem} from '../Redux/actions';
 import {useSelector,useDispatch} from 'react-redux';
-import store from '../Redux/store';
 import DateTimePicker from 'react-datetime-picker';
-import { DateTimePicker as DateTimePicker1}  from "react-tempusdominus-bootstrap";
-import moment from 'moment';
-
-
 
 function InputBoxEnter(props){
     const dispatch=useDispatch();
     const globalstate=useSelector(state=>state.globalToDoReducer);
-    const localstate=useSelector(state=>state.localToDoReducer);
-    const actvTab=useSelector(state=>state.setActiveTab);
     const [getDate,setDate]=useState(new Date());
     const [getTask,setTask]=useState();
     
     const handleSubmit=(event)=>{
         event.preventDefault();
-        console.log(getTask);
         if(getTask!=""){
-            if(actvTab=="3"){
-                dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),date:getDate,task:getTask,done:false}]));
-            }
-            else{
-                dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),date:getDate,task:getTask,done:false}]));
-                dispatch(addLocalToDoItem({id:Math.random(),date:getDate,task:getTask,done:false}));
-            }
-            console.log(globalstate);           
+            dispatch(updateGlobalToDoItem([...globalstate,{id:Math.random(),date:getDate,task:getTask,done:false}]));     
         }
         setTask("");
         setDate(new Date());
-        dispatch(addLocalStorage([...globalstate,{id:Math.random(),date:getDate,task:getTask,done:false}]));
     }
     return(
         <div >
@@ -57,8 +41,7 @@ function InputBoxEnter(props){
                         <button type="submit"  id="addButton"> 
                             <span className="addTaskText">Add Task</span>
                         </button>
-                    </div>
-                    
+                    </div>                    
             </form>
         </div>
     );
