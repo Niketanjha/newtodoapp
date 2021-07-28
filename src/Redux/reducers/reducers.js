@@ -1,5 +1,3 @@
-import store from "../store";
-
 function getLocalStorage(){
     const x=localStorage.getItem("newGlobalState");
     if(x==="" || x===null){
@@ -20,62 +18,18 @@ function getLocalStorage(){
       return temp; 
     }
 }
-export function localStorageReducer(state=getLocalStorage(),action){
-    switch(action.type){
-        case "ADD_LOCAL_STORAGE":
-            localStorage.setItem("newGlobalState",JSON.stringify(action.payload));
-            return state; 
-        default:
-            return state; 
-    }
-}
 
-export function globalToDoReducer(state=[],action){
+export function globalToDoReducer(state=getLocalStorage(),action){
     switch(action.type){
-        case "ADD_GLOBAL_TO_DO":
-            const tempTodo={
-                id:action.payload.id,
-                task:action.payload.task,
-                done:action.payload.done,
-                date:action.payload.date
-            };
-            state.push(tempTodo);
-            console.log("its switch",state,action);
-            return state; 
-        case "DELETE_GLOBAL_TO_DO":
-            let i=action.payload;
-            let tempArray=[...state.slice(0,i),...state.slice(i+1)];
-            state=[...tempArray];
-            return state; 
         case "UPDATE_GLOBAL_TO_DO":
             state=[...action.payload];
-            return state; 
-        case "GET_GLOBAL_TO_DO":
+            localStorage.setItem("newGlobalState",JSON.stringify(state));
             return state; 
         default:
             return state; 
     }
 }
 
-export function localToDoReducer(state=[],action){
-    switch(action.type){
-        case "ADD_LOCAL_TO_DO":
-            const tempTodo={
-                id:action.payload.id,
-                task:action.payload.task,
-                done:action.payload.done,
-                date:action.payload.date
-            };
-            state.push(tempTodo);
-            console.log("its switch",state,action);
-            return state;
-        case "UPDATE_LOCAL_TO_DO":
-            state=[...action.payload];
-            return state; 
-        default:
-            return state; 
-    }
-}
 export function totalTaskReducer(state=0,action){
     switch(action.type){
         case "SET_TOTAL_TASK":

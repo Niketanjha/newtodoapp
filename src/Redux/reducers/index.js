@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
-import {globalToDoReducer,localToDoReducer
+import {globalToDoReducer
     ,totalTaskReducer,setActiveTab,
-    modalIsOpen,setTempIndex,localStorageReducer} from './reducers';
+    modalIsOpen,setTempIndex} from './reducers';
 
 export default combineReducers(
-    {globalToDoReducer,localToDoReducer
-    ,totalTaskReducer,setActiveTab,localStorageReducer,
+    {globalToDoReducer
+    ,totalTaskReducer,setActiveTab,
     modalIsOpen,setTempIndex}
 );
