@@ -1,6 +1,6 @@
-#ToDo App with redux and local storage. 
+# ToDo App with redux and local storage. 
 
-##To start the project: 
+## To start the project: 
 ### 'npm install'
-##Then:
+## Then:
 ### 'npm start' 
